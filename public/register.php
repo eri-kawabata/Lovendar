@@ -2,7 +2,6 @@
 
 <?php
 include '../config/config.php';
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
@@ -25,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ユーザー登録</title>
+    <title>登録</title>
 </head>
 <body>
     <form method="POST">
@@ -39,3 +38,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </body>
 </html>
+

@@ -9,7 +9,7 @@ redirectIfNotLoggedIn();
 
 $user_id = $_SESSION['user_id'];
 
-// ペアリング情報を取得
+// ペアリング情報
 $stmt = $conn->prepare("
     SELECT u.name AS partner_name, c.anniversary_date 
     FROM couples c 
@@ -20,7 +20,7 @@ $stmt->bind_param("iii", $user_id, $user_id, $user_id);
 $stmt->execute();
 $pairing_info = $stmt->get_result()->fetch_assoc();
 
-// イベント一覧を取得
+// イベント一覧
 $stmt = $conn->prepare("
     SELECT e.title, e.description, e.date_time, e.location 
     FROM events e 
@@ -31,7 +31,7 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $events = $stmt->get_result();
 
-// 通知一覧を取得
+// 通知一覧
 $stmt = $conn->prepare("SELECT message, is_read FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -42,23 +42,30 @@ $notifications = $stmt->get_result();
 <html>
 <head>
     <title>ダッシュボード</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 </head>
 <body>
     <h1>ダッシュボード</h1>
 
-    <!-- ペアリング情報 -->
-    <?php if ($pairing_info): ?>
-        <h2>パートナー情報</h2>
-        <p>パートナー: <?php echo htmlspecialchars($pairing_info['partner_name']); ?></p>
-        <p>記念日: <?php echo htmlspecialchars($pairing_info['anniversary_date']); ?></p>
-    <?php else: ?>
-        <p>パートナーとペアリングしてください。</p>
-        <a href="pairing.php">ペアリングする</a>
-    <?php endif; ?>
+    <!-- カレンダー -->
+    <div id="calendar"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: 'calendar.php',
+                eventClick: function(info) {
+                    alert('イベント: ' + info.event.title);
+                }
+            });
+            calendar.render();
+        });
+    </script>
 
     <!-- イベント一覧 -->
     <h2>イベント一覧</h2>
-    <a href="event_form.php">新しいイベントを作成</a>
     <ul>
         <?php while ($event = $events->fetch_assoc()): ?>
             <li>
@@ -84,3 +91,4 @@ $notifications = $stmt->get_result();
     </ul>
 </body>
 </html>
+
