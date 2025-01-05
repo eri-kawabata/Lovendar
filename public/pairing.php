@@ -5,6 +5,8 @@ session_start();
 
 redirectIfNotLoggedIn();
 
+$message = "";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $partner_email = trim($_POST['partner_email']);
     $anniversary_date = $_POST['anniversary_date'];
@@ -20,35 +22,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $partner_id = $partner['id'];
         $user_id = $_SESSION['user_id'];
 
-        // カップルデータを挿入
-        $stmt = $conn->prepare("INSERT INTO couples (user1_id, user2_id, anniversary_date) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $user_id, $partner_id, $anniversary_date);
+        // 既にペアリングされているか確認
+        $stmt = $conn->prepare("SELECT * FROM couples WHERE (user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)");
+        $stmt->bind_param("iiii", $user_id, $partner_id, $partner_id, $user_id);
         $stmt->execute();
+        $existing_pairing = $stmt->get_result()->fetch_assoc();
 
-        // ユーザーの partner_id を更新
-        $stmt = $conn->prepare("UPDATE users SET partner_id = ? WHERE id = ?");
-        $stmt->bind_param("ii", $partner_id, $user_id);
-        $stmt->execute();
+        if ($existing_pairing) {
+            $message = "既にこのユーザーとペアリングされています。";
+        } else {
+            // カップルデータを挿入
+            $stmt = $conn->prepare("INSERT INTO couples (user1_id, user2_id, anniversary_date) VALUES (?, ?, ?)");
+            $stmt->bind_param("iis", $user_id, $partner_id, $anniversary_date);
+            if ($stmt->execute()) {
+                // ユーザーの partner_id を更新
+                $stmt = $conn->prepare("UPDATE users SET partner_id = ? WHERE id = ?");
+                $stmt->bind_param("ii", $partner_id, $user_id);
+                $stmt->execute();
 
-        echo "ペアリングが完了しました！";
+                $message = "ペアリングが完了しました！";
+            } else {
+                $message = "ペアリングの登録中にエラーが発生しました。";
+            }
+        }
     } else {
-        echo "指定したメールアドレスのユーザーが見つかりません。";
+        $message = "指定したメールアドレスのユーザーが見つかりません。";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ペアリング</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <form method="POST">
-        <label>パートナーのメールアドレス:</label>
-        <input type="email" name="partner_email" required>
-        <label>記念日:</label>
-        <input type="date" name="anniversary_date" required>
-        <button type="submit">ペアリング</button>
-    </form>
+    <header>ペアリング</header>
+    <div class="container">
+        <?php if ($message): ?>
+            <div class="card">
+                <p><?php echo htmlspecialchars($message); ?></p>
+            </div>
+        <?php endif; ?>
+
+        <form method="POST" class="card">
+            <label for="partner_email">パートナーのメールアドレス:</label>
+            <input type="email" id="partner_email" name="partner_email" placeholder="例: partner@example.com" required>
+            
+            <label for="anniversary_date">記念日:</label>
+            <input type="date" id="anniversary_date" name="anniversary_date" required>
+            
+            <button type="submit">ペアリング</button>
+        </form>
+    </div>
 </body>
 </html>
+

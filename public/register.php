@@ -22,20 +22,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>登録</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <form method="POST">
-        <label>名前:</label>
-        <input type="text" name="name" required>
-        <label>メールアドレス:</label>
-        <input type="email" name="email" required>
-        <label>パスワード:</label>
-        <input type="password" name="password" required>
-        <button type="submit">登録</button>
-    </form>
+    <header>新規登録</header>
+    <div class="container">
+        <form method="POST">
+            <label for="name">名前:</label>
+            <input type="text" id="name" name="name" placeholder="お名前を入力" required>
+            
+            <label for="email">メールアドレス:</label>
+            <input type="email" id="email" name="email" placeholder="example@example.com" required>
+            
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
+            
+            <button type="submit">登録</button>
+        </form>
+        <p class="text-center">
+            既にアカウントをお持ちですか？ <a href="login.php">ログイン</a>
+        </p>
+    </div>
 </body>
 </html>
+
+
 

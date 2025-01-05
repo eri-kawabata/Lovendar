@@ -22,7 +22,7 @@ $pairing_info = $stmt->get_result()->fetch_assoc();
 
 // イベント一覧
 $stmt = $conn->prepare("
-    SELECT e.title, e.description, e.date_time, e.location 
+    SELECT e.id, e.title, e.description, e.date_time, e.location 
     FROM events e 
     WHERE e.created_by = ? 
     ORDER BY e.date_time
@@ -32,63 +32,93 @@ $stmt->execute();
 $events = $stmt->get_result();
 
 // 通知一覧
-$stmt = $conn->prepare("SELECT message, is_read FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
+$stmt = $conn->prepare("SELECT id, message, is_read FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $notifications = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ダッシュボード</title>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <h1>ダッシュボード</h1>
+    <header>ダッシュボード</header>
+    <div class="container">
+        <!-- ペアリング情報 -->
+        <?php if ($pairing_info): ?>
+            <div class="card">
+                <h2>パートナー情報</h2>
+                <p>パートナー: <?php echo htmlspecialchars($pairing_info['partner_name']); ?></p>
+                <p>記念日: <?php echo htmlspecialchars($pairing_info['anniversary_date']); ?></p>
+            </div>
+        <?php else: ?>
+            <div class="card">
+                <p>パートナーとペアリングしてください。</p>
+                <a href="pairing.php" class="btn">ペアリングする</a>
+            </div>
+        <?php endif; ?>
 
-    <!-- カレンダー -->
-    <div id="calendar"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: 'calendar.php',
-                eventClick: function(info) {
-                    alert('イベント: ' + info.event.title);
-                }
+        <!-- カレンダー -->
+        <div id="calendar" class="card"></div>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: 'calendar.php',
+                    eventClick: function(info) {
+                        alert('イベント: ' + info.event.title);
+                    }
+                });
+                calendar.render();
             });
-            calendar.render();
-        });
-    </script>
+        </script>
 
-    <!-- イベント一覧 -->
-    <h2>イベント一覧</h2>
-    <ul>
-        <?php while ($event = $events->fetch_assoc()): ?>
-            <li>
-                <strong><?php echo htmlspecialchars($event['title']); ?></strong><br>
-                説明: <?php echo htmlspecialchars($event['description']); ?><br>
-                日時: <?php echo htmlspecialchars($event['date_time']); ?><br>
-                場所: <?php echo htmlspecialchars($event['location']); ?><br>
-            </li>
-        <?php endwhile; ?>
-    </ul>
+        <!-- イベント一覧 -->
+        <div class="card">
+            <h2>イベント一覧</h2>
+            <ul>
+                <?php while ($event = $events->fetch_assoc()): ?>
+                    <li>
+                        <strong><?php echo htmlspecialchars($event['title']); ?></strong><br>
+                        説明: <?php echo htmlspecialchars($event['description']); ?><br>
+                        日時: <?php echo htmlspecialchars($event['date_time']); ?><br>
+                        場所: <?php echo htmlspecialchars($event['location']); ?><br>
+                        <a href="event_edit.php?id=<?php echo $event['id']; ?>" class="btn btn-sm">編集</a>
+                        <a href="event_delete.php?id=<?php echo $event['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('本当にこのイベントを削除しますか？');">削除</a>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+        </div>
 
-    <!-- 通知一覧 -->
-    <h2>通知</h2>
-    <ul>
-        <?php while ($notification = $notifications->fetch_assoc()): ?>
-            <li>
-                <?php echo htmlspecialchars($notification['message']); ?>
-                <?php if (!$notification['is_read']): ?>
-                    <strong>(新規)</strong>
-                <?php endif; ?>
-            </li>
-        <?php endwhile; ?>
-    </ul>
+        <!-- 通知一覧 -->
+        <div class="card">
+            <h2>通知</h2>
+            <ul>
+                <?php while ($notification = $notifications->fetch_assoc()): ?>
+                    <li>
+                        <?php echo htmlspecialchars($notification['message']); ?>
+                        <?php if (!$notification['is_read']): ?>
+                            <span class="badge bg-warning text-dark">新規</span>
+                        <?php endif; ?>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
+
+
 

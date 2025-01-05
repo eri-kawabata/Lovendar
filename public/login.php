@@ -25,18 +25,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+    <meta charset="UTF-8">
     <title>ログイン</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <form method="POST">
-        <label>メールアドレス:</label>
-        <input type="email" name="email" required>
-        <label>パスワード:</label>
-        <input type="password" name="password" required>
-        <button type="submit">ログイン</button>
-    </form>
+    <header>ログイン</header>
+    <div class="container">
+        <form method="POST">
+            <label>メールアドレス:</label>
+            <input type="email" name="email" required>
+            <label>パスワード:</label>
+            <input type="password" name="password" required>
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
 </body>
 </html>
 
