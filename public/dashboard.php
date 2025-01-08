@@ -1,5 +1,3 @@
-<!-- ログイン後のメインページ（イベント一覧など）。 -->
-
 <?php
 include '../config/config.php';
 include '../config/functions.php';
@@ -9,33 +7,44 @@ redirectIfNotLoggedIn();
 
 $user_id = $_SESSION['user_id'];
 
-// ペアリング情報
-$stmt = $conn->prepare("
-    SELECT u.name AS partner_name, c.anniversary_date 
-    FROM couples c 
-    JOIN users u ON u.id = (CASE WHEN c.user1_id = ? THEN c.user2_id ELSE c.user1_id END)
-    WHERE c.user1_id = ? OR c.user2_id = ?
-");
-$stmt->bind_param("iii", $user_id, $user_id, $user_id);
-$stmt->execute();
-$pairing_info = $stmt->get_result()->fetch_assoc();
+// 初期化
+$pairing_info = null;
+$events = null;
+$notifications = null;
 
-// イベント一覧
-$stmt = $conn->prepare("
-    SELECT e.id, e.title, e.description, e.date_time, e.location 
-    FROM events e 
-    WHERE e.created_by = ? 
-    ORDER BY e.date_time
-");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$events = $stmt->get_result();
+try {
+    // ペアリング情報の取得
+    $stmt = $conn->prepare("
+        SELECT u.name AS partner_name, c.anniversary_date 
+        FROM couples c 
+        JOIN users u ON u.id = (CASE WHEN c.user1_id = ? THEN c.user2_id ELSE c.user1_id END)
+        WHERE c.user1_id = ? OR c.user2_id = ?
+    ");
+    $stmt->bind_param("iii", $user_id, $user_id, $user_id);
+    $stmt->execute();
+    $pairing_info = $stmt->get_result()->fetch_assoc();
 
-// 通知一覧
-$stmt = $conn->prepare("SELECT id, message, is_read FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$notifications = $stmt->get_result();
+    // イベント一覧の取得
+    $stmt = $conn->prepare("
+        SELECT e.id, e.title, e.description, e.date_time, e.location 
+        FROM events e 
+        WHERE e.created_by = ? 
+        ORDER BY e.date_time
+    ");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $events = $stmt->get_result();
+
+    // 通知一覧の取得
+    $stmt = $conn->prepare("SELECT id, message, is_read FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $notifications = $stmt->get_result();
+
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    die("データベースエラーが発生しました。管理者にお問い合わせください。");
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,81 +53,84 @@ $notifications = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ダッシュボード</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- FullCalendar CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
-    <!-- カスタムCSS -->
-    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
-    <header>ダッシュボード</header>
-    <div class="container">
-        <!-- ペアリング情報 -->
-        <?php if ($pairing_info): ?>
-            <div class="card">
-                <h2>パートナー情報</h2>
-                <p>パートナー: <?php echo htmlspecialchars($pairing_info['partner_name']); ?></p>
-                <p>記念日: <?php echo htmlspecialchars($pairing_info['anniversary_date']); ?></p>
-            </div>
-        <?php else: ?>
-            <div class="card">
-                <p>パートナーとペアリングしてください。</p>
-                <a href="pairing.php" class="btn">ペアリングする</a>
-            </div>
-        <?php endif; ?>
-
-        <!-- カレンダー -->
-        <div id="calendar" class="card"></div>
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    events: 'calendar.php',
-                    eventClick: function(info) {
-                        alert('イベント: ' + info.event.title);
-                    }
-                });
-                calendar.render();
-            });
-        </script>
-
-        <!-- イベント一覧 -->
-        <div class="card">
-            <h2>イベント一覧</h2>
+    <header>
+        <input type="checkbox" id="menu" />
+        <label for="menu" class="menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="nav">
             <ul>
-                <?php while ($event = $events->fetch_assoc()): ?>
-                    <li>
-                        <strong><?php echo htmlspecialchars($event['title']); ?></strong><br>
-                        説明: <?php echo htmlspecialchars($event['description']); ?><br>
-                        日時: <?php echo htmlspecialchars($event['date_time']); ?><br>
-                        場所: <?php echo htmlspecialchars($event['location']); ?><br>
-                        <a href="event_edit.php?id=<?php echo $event['id']; ?>" class="btn btn-sm">編集</a>
-                        <a href="event_delete.php?id=<?php echo $event['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('本当にこのイベントを削除しますか？');">削除</a>
-                    </li>
-                <?php endwhile; ?>
+                <li><a href="dashboard.php">ホーム</a></li>
+                <li><a href="event_form.php">イベントの作成</a></li>
+                <li><a href="calendar.php">カレンダー</a></li>
+                <li><a href="settings.php">設定</a></li>
             </ul>
-        </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <!-- ペアリング情報 -->
+            <?php if ($pairing_info): ?>
+                <div class="card">
+                    <h2>パートナー情報</h2>
+                    <p>パートナー: <?php echo htmlspecialchars($pairing_info['partner_name']); ?></p>
+                    <p>記念日: <?php echo htmlspecialchars($pairing_info['anniversary_date']); ?></p>
+                </div>
+            <?php else: ?>
+                <div class="card">
+                    <p>パートナーとペアリングしてください。</p>
+                    <a href="pairing.php" class="btn">ペアリングする</a>
+                </div>
+            <?php endif; ?>
 
-        <!-- 通知一覧 -->
-        <div class="card">
-            <h2>通知</h2>
-            <ul>
-                <?php while ($notification = $notifications->fetch_assoc()): ?>
-                    <li>
-                        <?php echo htmlspecialchars($notification['message']); ?>
-                        <?php if (!$notification['is_read']): ?>
-                            <span class="badge bg-warning text-dark">新規</span>
-                        <?php endif; ?>
-                    </li>
-                <?php endwhile; ?>
-            </ul>
+            <!-- イベント一覧 -->
+            <div class="card">
+                <h2>イベント一覧</h2>
+                <?php if ($events && $events->num_rows > 0): ?>
+                    <ul>
+                        <?php while ($event = $events->fetch_assoc()): ?>
+                            <li>
+                                <strong><?php echo htmlspecialchars($event['title']); ?></strong><br>
+                                説明: <?php echo htmlspecialchars($event['description']); ?><br>
+                                日時: <?php echo htmlspecialchars($event['date_time']); ?><br>
+                                場所: <?php echo htmlspecialchars($event['location']); ?><br>
+                                <a href="event_edit.php?id=<?php echo $event['id']; ?>" class="btn btn-sm">編集</a>
+                                <a href="event_delete.php?id=<?php echo $event['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('本当にこのイベントを削除しますか？');">削除</a>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>イベントが登録されていません。</p>
+                <?php endif; ?>
+            </div>
+
+            <!-- 通知一覧 -->
+            <div class="card">
+                <h2>通知</h2>
+                <?php if ($notifications && $notifications->num_rows > 0): ?>
+                    <ul>
+                        <?php while ($notification = $notifications->fetch_assoc()): ?>
+                            <li>
+                                <?php echo htmlspecialchars($notification['message']); ?>
+                                <?php if (!$notification['is_read']): ?>
+                                    <span class="badge bg-warning text-dark">新規</span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>通知はありません。</p>
+                <?php endif; ?>
+            </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>
-
 
 

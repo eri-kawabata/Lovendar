@@ -11,42 +11,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $partner_email = trim($_POST['partner_email']);
     $anniversary_date = $_POST['anniversary_date'];
 
-    // パートナーのユーザーIDを取得
-    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt->bind_param("s", $partner_email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $partner = $result->fetch_assoc();
+    // 入力チェック
+    if (filter_var($partner_email, FILTER_VALIDATE_EMAIL) && !empty($anniversary_date)) {
+        try {
+            // パートナーのユーザーIDを取得
+            $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+            $stmt->bind_param("s", $partner_email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $partner = $result->fetch_assoc();
 
-    if ($partner) {
-        $partner_id = $partner['id'];
-        $user_id = $_SESSION['user_id'];
+            if ($partner) {
+                $partner_id = $partner['id'];
+                $user_id = $_SESSION['user_id'];
 
-        // 既にペアリングされているか確認
-        $stmt = $conn->prepare("SELECT * FROM couples WHERE (user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)");
-        $stmt->bind_param("iiii", $user_id, $partner_id, $partner_id, $user_id);
-        $stmt->execute();
-        $existing_pairing = $stmt->get_result()->fetch_assoc();
-
-        if ($existing_pairing) {
-            $message = "既にこのユーザーとペアリングされています。";
-        } else {
-            // カップルデータを挿入
-            $stmt = $conn->prepare("INSERT INTO couples (user1_id, user2_id, anniversary_date) VALUES (?, ?, ?)");
-            $stmt->bind_param("iis", $user_id, $partner_id, $anniversary_date);
-            if ($stmt->execute()) {
-                // ユーザーの partner_id を更新
-                $stmt = $conn->prepare("UPDATE users SET partner_id = ? WHERE id = ?");
-                $stmt->bind_param("ii", $partner_id, $user_id);
+                // 既にペアリングされているか確認
+                $stmt = $conn->prepare("SELECT * FROM couples WHERE (user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)");
+                $stmt->bind_param("iiii", $user_id, $partner_id, $partner_id, $user_id);
                 $stmt->execute();
+                $existing_pairing = $stmt->get_result()->fetch_assoc();
 
-                $message = "ペアリングが完了しました！";
+                if ($existing_pairing) {
+                    $message = "既にこのユーザーとペアリングされています。";
+                } else {
+                    // カップルデータを挿入
+                    $stmt = $conn->prepare("INSERT INTO couples (user1_id, user2_id, anniversary_date) VALUES (?, ?, ?)");
+                    $stmt->bind_param("iis", $user_id, $partner_id, $anniversary_date);
+                    if ($stmt->execute()) {
+                        // ユーザーの partner_id を更新
+                        $stmt = $conn->prepare("UPDATE users SET partner_id = ? WHERE id = ?");
+                        $stmt->bind_param("ii", $partner_id, $user_id);
+                        $stmt->execute();
+
+                        $message = "ペアリングが完了しました！";
+                    } else {
+                        $message = "ペアリングの登録中にエラーが発生しました。";
+                    }
+                }
             } else {
-                $message = "ペアリングの登録中にエラーが発生しました。";
+                $message = "指定したメールアドレスのユーザーが見つかりません。";
             }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $message = "システムエラーが発生しました。管理者にお問い合わせください。";
         }
     } else {
-        $message = "指定したメールアドレスのユーザーが見つかりません。";
+        $message = "入力データが正しくありません。";
     }
 }
 ?>
@@ -63,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
-    <header>ペアリング</header>
+    <?php include '../templates/header.php'; ?>
     <div class="container">
         <?php if ($message): ?>
             <div class="card">
@@ -81,6 +91,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">ペアリング</button>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+
+            hamburger.addEventListener('click', function () {
+                navMenu.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
+
 
