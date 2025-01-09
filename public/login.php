@@ -28,21 +28,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ログイン</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - Lovendar</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
-    <header>ログイン</header>
+    <header class="login-header">Lovendar ログイン</header>
     <div class="container">
         <form method="POST">
-            <label>メールアドレス:</label>
-            <input type="email" name="email" required>
-            <label>パスワード:</label>
-            <input type="password" name="password" required>
+            <label for="email">メールアドレス:</label>
+            <input type="email" id="email" name="email" placeholder="example@example.com" required>
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
             <button type="submit">ログイン</button>
         </form>
+        <p class="text-center">
+            アカウントをお持ちでない場合は <a href="register.php">新規登録</a>
+        </p>
     </div>
 </body>
 </html>
-
