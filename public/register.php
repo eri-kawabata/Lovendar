@@ -66,17 +66,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
 
         function triggerHearts() {
-            const container = document.getElementById('heartsContainer');
-            container.innerHTML = ''; // 古いハートを削除
-            for (let i = 0; i < 30; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDelay = Math.random() * 2 + 's';
-                heart.style.animationDuration = 2 + Math.random() * 3 + 's';
-                container.appendChild(heart);
-            }
-        }
+    const container = document.getElementById('heartsContainer');
+    container.innerHTML = ''; // 古いハートを削除
+    for (let i = 0; i < 50; i++) { // ハートの数を増やす
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDelay = Math.random() * 1 + 's';
+        heart.style.animationDuration = 3 + Math.random() * 4 + 's';
+
+        // ランダムサイズのハートを作る
+        const size = Math.random() * 30 + 50; // サイズを50px〜80pxにランダム化
+        heart.style.width = size + 'px';
+        heart.style.height = size + 'px';
+
+        container.appendChild(heart);
+    }
+}
+
     </script>
 </body>
 </html>
