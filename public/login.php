@@ -34,18 +34,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
-    <header class="login-header">Lovendar ログイン</header>
-    <div class="container">
-        <form method="POST">
-            <label for="email">メールアドレス:</label>
-            <input type="email" id="email" name="email" placeholder="example@example.com" required>
-            <label for="password">パスワード:</label>
-            <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
-            <button type="submit">ログイン</button>
-        </form>
-        <p class="text-center">
-            アカウントをお持ちでない場合は <a href="register.php">新規登録</a>
-        </p>
-    </div>
+    <main class="centered-layout">
+        <header class="login-header">Lovendar ログイン</header>
+        <div class="container">
+            <form method="POST">
+                <label for="email">メールアドレス:</label>
+                <input type="email" id="email" name="email" placeholder="example@example.com" required>
+                <label for="password">パスワード:</label>
+                <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
+                <button type="submit">ログイン</button>
+            </form>
+            <p class="text-center">
+                アカウントをお持ちでない場合は <a href="register.php">新規登録</a>
+            </p>
+        </div>
+    </main>
 </body>
 </html>
+
