@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="centered-layout">
         <header>新規登録</header>
         <div class="container">
-            <form method="POST">
+            <form method="POST" id="registerForm">
                 <h2>アカウント作成</h2>
                 <label for="name">名前:</label>
                 <input type="text" id="name" name="name" placeholder="お名前を入力" required>
@@ -47,13 +47,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password">パスワード:</label>
                 <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
                 
-                <button type="submit">登録</button>
+                <button type="submit" id="registerButton">登録</button>
             </form>
             <p class="text-center">
                 既にアカウントをお持ちですか？ <a href="login.php">ログイン</a>
             </p>
         </div>
     </main>
+
+    <!-- ハートアニメーション用コンテナ -->
+    <div id="heartsContainer"></div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // 通常の送信を防ぐ
+            triggerHearts(); // ハートをトリガー
+            setTimeout(() => this.submit(), 2000); // 2秒後にフォーム送信
+        });
+
+        function triggerHearts() {
+            const container = document.getElementById('heartsContainer');
+            container.innerHTML = ''; // 古いハートを削除
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.animationDuration = 2 + Math.random() * 3 + 's';
+                container.appendChild(heart);
+            }
+        }
+    </script>
 </body>
 </html>
 

@@ -168,3 +168,42 @@ form button:hover {
         padding: 10px;
     }
 }
+
+/* ハートアニメーション用 */
+#heartsContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-accent-dark);
+    clip-path: polygon(50% 0%, 61% 20%, 85% 20%, 100% 40%, 85% 85%, 50% 100%, 15% 85%, 0% 40%, 15% 20%, 39% 20%);
+    animation: floatHeart 5s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+.heart:nth-child(odd) {
+    background-color: var(--color-accent);
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100vh) scale(1.2);
+        opacity: 0;
+    }
+}
