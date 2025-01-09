@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             setTimeout(() => this.submit(), 2000); // 2秒後にフォーム送信
         });
 
-        function triggerHearts() {
+function triggerHearts() {
     const container = document.getElementById('heartsContainer');
     container.innerHTML = ''; // 古いハートを削除
     for (let i = 0; i < 50; i++) { // ハートの数を増やす
@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         container.appendChild(heart);
     }
 }
+
 
     </script>
 </body>
