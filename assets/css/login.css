@@ -1,0 +1,112 @@
+/* カラーテーマ */
+:root {
+    --color-1: #333;
+    /* メインテキストカラー */
+    --color-accent: #ffbfb3;
+    /* アクセントカラー (柔らかなピンク) */
+    --color-accent-dark: #e98e83;
+    /* サブアクセントカラー (濃いピンク) */
+    --color-background: #fff2e5;
+    /* 背景色 (淡いオレンジピンク) */
+    --color-card: white;
+    /* カード背景色 */
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    /* カードシャドウ */
+}
+
+/* 全体のリセット */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--color-1);
+    background-color: var(--color-background);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ヘッダー */
+header {
+    font-size: 2rem;
+    color: var(--color-accent-dark);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* コンテナ */
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: var(--color-card);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--color-shadow);
+    text-align: center;
+}
+
+/* フォーム */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-size: 1rem;
+    color: var(--color-1);
+    text-align: left;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
+    background-color: var(--color-background);
+    transition: border-color 0.3s ease-in-out;
+}
+
+form input:focus {
+    border-color: var(--color-accent-dark);
+    outline: none;
+}
+
+form button {
+    padding: 10px;
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+form button:hover {
+    background-color: var(--color-accent-dark);
+    transform: scale(1.05);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    form button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
