@@ -47,7 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password">パスワード:</label>
                 <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
                 
-                <button type="submit" id="registerButton">登録</button>
+                <div id="heartsContainer"></div>
+<button id="triggerHearts">登録</button>
+
+<script>
+    document.getElementById('triggerHearts').addEventListener('click', function () {
+        triggerHearts();
+    });
+</script>
+
             </form>
             <p class="text-center">
                 既にアカウントをお持ちですか？ <a href="login.php">ログイン</a>
@@ -68,11 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function triggerHearts() {
     const container = document.getElementById('heartsContainer');
     container.innerHTML = ''; // 古いハートを削除
-    for (let i = 0; i < 50; i++) { // ハートの数を増やす
+    for (let i = 0; i < 50; i++) { // ハートの数を調整
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDelay = Math.random() * 1 + 's';
+        heart.style.animationDelay = Math.random() * 2 + 's';
         heart.style.animationDuration = 3 + Math.random() * 4 + 's';
 
         // ランダムサイズのハートを作る
@@ -83,6 +91,7 @@ function triggerHearts() {
         container.appendChild(heart);
     }
 }
+
 
 
     </script>

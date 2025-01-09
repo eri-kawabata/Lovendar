@@ -185,18 +185,14 @@ form button:hover {
     position: absolute;
     bottom: -100px;
     width: 80px;
-    /* 大きいハートサイズ */
+    /* ハートサイズ */
     height: 80px;
-    background-color: var(--color-accent-dark);
-    clip-path: path("M 50 15 
- C 50 -10, 90 -10, 90 30 C 90 60, 50 90, 50 100 C 50 90, 10 60, 10 30 C 10 -10, 50 -10, 50 15 Z"
-);
+    background-image: url('path/to/your/heart.png');
+    /* ハート画像のパス */
+    background-size: cover;
+    background-repeat: no-repeat;
     animation: floatHeart 6s ease-in-out infinite;
     opacity: 0.9;
-}
-
-.heart:nth-child(odd) {
-    background-color: var(--color-accent);
 }
 
 @keyframes floatHeart {
