@@ -1,5 +1,3 @@
--- テーブル定義やデータベースの初期化スクリプト。
-
 -- ユーザーテーブル
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,6 +16,7 @@ CREATE TABLE couples (
     user2_id INT NOT NULL,
     anniversary_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user1_id, user2_id),
     FOREIGN KEY (user1_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (user2_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -34,7 +33,7 @@ CREATE TABLE events (
     FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- イベント参加者テーブル（将来的に参加機能を追加する場合の準備）
+-- イベント参加者テーブル
 CREATE TABLE event_participants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
@@ -42,7 +41,8 @@ CREATE TABLE event_participants (
     status ENUM('confirmed', 'proposed') DEFAULT 'confirmed',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(event_id, user_id)
 );
 
 -- 通知テーブル
@@ -54,3 +54,8 @@ CREATE TABLE notifications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- インデックスの追加
+CREATE INDEX idx_users_partner_id ON users(partner_id);
+CREATE INDEX idx_events_created_by ON events(created_by);
+CREATE INDEX idx_notifications_user_id ON notifications(user_id);
