@@ -66,42 +66,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ペアリング</title>
+    <title>ペアリング - Lovendar</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- カスタムCSS -->
-    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/css/pairing.css">
 </head>
 <body>
-    <?php include '../templates/header.php'; ?>
-    <div class="container">
-        <?php if ($message): ?>
-            <div class="card">
-                <p><?php echo htmlspecialchars($message); ?></p>
-            </div>
-        <?php endif; ?>
+    <header>
+        <input type="checkbox" id="menu" />
+        <label for="menu" class="menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="nav">
+            <ul>
+                <li><a href="dashboard.php">ホーム</a></li>
+                <li><a href="event_form.php">イベントの作成</a></li>
+                <li><a href="calendar.php">カレンダー</a></li>
+                <li><a href="settings.php">設定</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container pairing-container">
+    <h2>パートナーとペアリング</h2>
+    <?php if ($message): ?>
+        <div class="alert">
+            <p><?php echo htmlspecialchars($message); ?></p>
+        </div>
+    <?php endif; ?>
 
-        <form method="POST" class="card">
+    <form method="POST" class="pairing-form">
+        <div class="form-group">
             <label for="partner_email">パートナーのメールアドレス:</label>
             <input type="email" id="partner_email" name="partner_email" placeholder="例: partner@example.com" required>
-            
+        </div>
+
+        <div class="form-group">
             <label for="anniversary_date">記念日:</label>
             <input type="date" id="anniversary_date" name="anniversary_date" required>
-            
-            <button type="submit">ペアリング</button>
-        </form>
-    </div>
+        </div>
+
+        <button type="submit" class="btn">ペアリング</button>
+    </form>
+</div>
+
+    </main>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const hamburger = document.getElementById('hamburger');
-            const navMenu = document.getElementById('nav-menu');
-
-            hamburger.addEventListener('click', function () {
-                navMenu.classList.toggle('active');
+            const menuToggle = document.getElementById('menu');
+            menuToggle.addEventListener('change', function () {
+                document.querySelector('.nav').classList.toggle('active');
             });
         });
     </script>
 </body>
 </html>
-
-

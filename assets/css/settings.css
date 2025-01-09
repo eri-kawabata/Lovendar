@@ -1,0 +1,94 @@
+/* カラーテーマ */
+:root {
+    --color-1: #333;
+    --color-accent: #ffbfb3;
+    --color-accent-dark: #e98e83;
+    --color-background: #fff2e5;
+    --color-card: white;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* 全体のリセット */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--color-1);
+    background-color: var(--color-background);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* コンテナ */
+.container {
+    max-width: 800px;
+    margin: 80px auto 20px;
+    padding: 20px;
+    background: var(--color-card);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--color-shadow);
+}
+
+/* タイトル */
+h1 {
+    font-size: 2rem;
+    color: var(--color-accent-dark);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* カード */
+.card {
+    background-color: var(--color-card);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--color-shadow);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+/* フォーム */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
+}
+
+form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+form button {
+    padding: 10px;
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 250ms ease;
+}
+
+form button:hover {
+    background-color: var(--color-accent-dark);
+}

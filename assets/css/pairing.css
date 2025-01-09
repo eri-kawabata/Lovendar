@@ -1,0 +1,275 @@
+/* カラーテーマ */
+:root {
+    --color-main-text: #333;
+    /* メインテキストカラー */
+    --color-accent: #ffbfb3;
+    /* アクセントカラー (柔らかなピンク) */
+    --color-accent-dark: #e98e83;
+    /* サブアクセントカラー (濃いピンク) */
+    --color-background: #fff2e5;
+    /* 背景色 (淡いオレンジピンク) */
+    --color-card: white;
+    /* カード背景色 */
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    /* カードシャドウ */
+    --color-nav-text: #fff;
+    /* ナビゲーションのテキストカラー */
+}
+
+/* 全体のリセット */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--color-main-text);
+    background-color: var(--color-background);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ハンバーガーメニュー */
+.menu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-card);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 200;
+    transition: transform 250ms ease, background-color 250ms ease;
+}
+
+.menu span {
+    display: block;
+    width: 60%;
+    height: 3px;
+    background-color: var(--color-main-text);
+    margin: 4px 0;
+    transition: transform 250ms ease, background-color 250ms ease;
+}
+
+.menu span:nth-of-type(1) {
+    transform: translateY(-6px);
+}
+
+.menu span:nth-of-type(3) {
+    transform: translateY(6px);
+}
+
+/* チェックボックスを非表示 */
+#menu {
+    display: none;
+}
+
+#menu:checked~.menu {
+    background-color: var(--color-accent-dark);
+    transform: rotate(360deg);
+}
+
+#menu:checked~.menu span {
+    background-color: var(--color-card);
+}
+
+#menu:checked~.menu span:nth-of-type(1) {
+    transform: rotate(45deg);
+}
+
+#menu:checked~.menu span:nth-of-type(2) {
+    opacity: 0;
+}
+
+#menu:checked~.menu span:nth-of-type(3) {
+    transform: rotate(-45deg);
+}
+
+#menu:checked~.nav {
+    left: 0;
+}
+
+#menu:checked~main {
+    transform: translateX(300px);
+}
+
+/* ナビゲーション */
+.nav {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--color-accent-dark);
+    z-index: 100;
+    transition: left 250ms ease;
+    padding-top: 60px;
+}
+
+.nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 20px;
+}
+
+.nav ul li {
+    margin-bottom: 15px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: var(--color-nav-text);
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 250ms ease;
+}
+
+.nav ul li a:hover {
+    background-color: var(--color-accent);
+    color: var(--color-card);
+}
+
+/* ペアリングコンテナ */
+.pairing-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--color-card);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--color-shadow);
+    text-align: center;
+}
+
+.pairing-container h2 {
+    font-size: 1.8rem;
+    color: var(--color-main-text);
+    margin-bottom: 20px;
+}
+
+/* フォーム */
+.pairing-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    color: var(--color-main-text);
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid var(--color-accent-dark);
+    border-radius: 5px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-background);
+}
+
+.form-group input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 5px var(--color-accent);
+    outline: none;
+}
+
+/* アラートメッセージ */
+.alert {
+    background-color: var(--color-accent);
+    color: var(--color-card);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* ボタン */
+.pairing-form .btn {
+    background-color: var(--color-accent-dark);
+    color: var(--color-card);
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pairing-form .btn:hover {
+    background-color: var(--color-accent);
+}
+
+.pairing-form .btn:focus {
+    outline: none;
+    transform: scale(1.05);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .pairing-container {
+        padding: 15px;
+    }
+
+    .pairing-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .form-group input {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .pairing-form .btn {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .menu {
+        top: 15px;
+        left: 15px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .menu span {
+        width: 50%;
+        height: 2px;
+    }
+
+    .container {
+        margin: 60px auto 20px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+}
