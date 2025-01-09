@@ -31,10 +31,7 @@ body {
     background-color: var(--color-background);
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    overflow-x: hidden;
 }
 
 /* レイアウト */
@@ -43,24 +40,29 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    width: 100%;
+    height: 100vh;
     padding: 20px;
+    gap: 20px;
 }
 
 /* ヘッダー */
 header {
+    text-align: center;
+    background-color: var(--color-accent);
+    color: white;
     font-size: 2rem;
     font-weight: bold;
-    color: var(--color-accent-dark);
-    text-align: center;
-    margin-bottom: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px var(--color-shadow);
 }
 
 /* コンテナ */
 .container {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     padding: 30px;
     background-color: var(--color-card);
     border-radius: 12px;
@@ -86,13 +88,13 @@ header {
 form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 
 form h2 {
     font-size: 1.5rem;
     color: var(--color-1);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 form label {
@@ -153,6 +155,10 @@ form button:hover {
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
+    header {
+        font-size: 1.8rem;
+    }
+
     .container {
         padding: 20px;
     }

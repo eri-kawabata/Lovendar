@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- カスタムCSS -->
-    <link rel="stylesheet" href="../assets/css/regiater.css">
+    <link rel="stylesheet" href="../assets/css/register.css">
 </head>
 <body>
-    <header>新規登録</header>
     <main class="centered-layout">
+        <header>新規登録</header>
         <div class="container">
             <form method="POST">
                 <h2>アカウント作成</h2>
@@ -56,5 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 </body>
 </html>
+
 
 
