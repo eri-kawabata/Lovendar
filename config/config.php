@@ -1,10 +1,10 @@
 <!-- データベース接続設定を記述。 -->
 
 <?php
-$host = 'localhost';
-$db = 'event_manager';
-$user = 'root';
-$pass = '';
+$host = 'mysql3104.db.sakura.ne.jp';
+$db = 'gs-erik_lovendar';
+$user = 'gs-erik_lovendar';
+$pass = 'gintoki555';
 
 $conn = new mysqli($host, $user, $pass, $db);
 
