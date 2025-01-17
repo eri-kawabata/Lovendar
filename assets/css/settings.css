@@ -8,7 +8,7 @@
     --color-shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* 全体のリセット */
+/* 全体リセット */
 *,
 *:before,
 *:after {
@@ -25,70 +25,106 @@ body {
     background-color: var(--color-background);
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ヘッダー */
+header {
+    position: relative;
+    background-color: var(--color-accent-dark);
+    color: white;
+    padding: 15px 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
 }
 
 /* コンテナ */
 .container {
-    max-width: 800px;
-    margin: 80px auto 20px;
-    padding: 20px;
-    background: var(--color-card);
+    max-width: 500px;
+    background-color: var(--color-card);
+    padding: 20px 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px var(--color-shadow);
+    margin-top: 20px;
 }
 
-/* タイトル */
-h1 {
-    font-size: 2rem;
-    color: var(--color-accent-dark);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* カード */
+/* メッセージカード */
 .card {
-    background-color: var(--color-card);
+    background-color: var(--color-accent-dark);
+    color: white;
+    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px var(--color-shadow);
     margin-bottom: 20px;
-    padding: 20px;
+    font-size: 1rem;
+    text-align: center;
 }
 
 /* フォーム */
 form {
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
 
+/* ラベルと入力 */
 form label {
-    margin-bottom: 8px;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-1);
 }
 
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 12px;
     border: 1px solid var(--color-accent);
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--color-background);
+    transition: border-color 0.3s ease;
 }
 
-form input[type="checkbox"] {
+/* チェックボックス */
+form label input[type="checkbox"] {
     margin-right: 10px;
 }
 
-form button {
-    padding: 10px;
-    background-color: var(--color-accent);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 250ms ease;
+/* フォーカス時 */
+form input:focus {
+    border-color: var(--color-accent-dark);
+    outline: none;
 }
 
-form button:hover {
+/* ボタン */
+button {
+    padding: 12px;
+    background-color: var(--color-accent);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
     background-color: var(--color-accent-dark);
+    transform: scale(1.05);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
 }

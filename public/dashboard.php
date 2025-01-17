@@ -69,7 +69,7 @@ try {
                 <li><a href="dashboard.php">ホーム</a></li>
                 <li><a href="event_form.php">イベントの作成</a></li>
                 <li><a href="calendar.php">カレンダー</a></li>
-                <li><a href="settings.php">設定</a></li> <!-- 設定ページのリンク -->
+                <li><a href="settings.php">設定</a></li>
             </ul>
         </nav>
     </header>

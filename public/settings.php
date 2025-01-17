@@ -1,34 +1,40 @@
 <?php
-session_start();
+// Include necessary files and start session
 include '../config/config.php';
 include '../config/functions.php';
+session_start();
 
+// Redirect user if not logged in
 redirectIfNotLoggedIn();
 
 $user_id = $_SESSION['user_id'];
 $message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // フォームデータを取得
+    // Fetch and sanitize form data
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
     $notify_updates = isset($_POST['notify_updates']) ? 1 : 0;
 
-    // 入力バリデーション
+    // Validate inputs
     if (empty($name) || empty($email)) {
         $message = "名前とメールアドレスは必須項目です。";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "有効なメールアドレスを入力してください。";
     } else {
         try {
-            // パスワードが入力されている場合は更新
+            // Prepare SQL for updating user information
             if (!empty($password)) {
                 $password_hashed = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, password = ?, notify_updates = ? WHERE id = ?");
+                $stmt = $conn->prepare(
+                    "UPDATE users SET name = ?, email = ?, password = ?, notify_updates = ? WHERE id = ?"
+                );
                 $stmt->bind_param("sssii", $name, $email, $password_hashed, $notify_updates, $user_id);
             } else {
-                $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, notify_updates = ? WHERE id = ?");
+                $stmt = $conn->prepare(
+                    "UPDATE users SET name = ?, email = ?, notify_updates = ? WHERE id = ?"
+                );
                 $stmt->bind_param("ssii", $name, $email, $notify_updates, $user_id);
             }
             $stmt->execute();
@@ -45,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ユーザー情報を取得
+// Fetch user information
 $stmt = $conn->prepare("SELECT name, email, notify_updates FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -62,6 +68,7 @@ $user = $stmt->get_result()->fetch_assoc();
     <link rel="stylesheet" href="../assets/css/settings.css">
 </head>
 <body>
+    <!-- Header with hamburger menu -->
     <header>
         <input type="checkbox" id="menu" />
         <label for="menu" class="menu">
@@ -78,6 +85,8 @@ $user = $stmt->get_result()->fetch_assoc();
             </ul>
         </nav>
     </header>
+
+    <!-- Main content -->
     <main>
         <div class="container">
             <h1>設定</h1>
@@ -108,4 +117,5 @@ $user = $stmt->get_result()->fetch_assoc();
     </main>
 </body>
 </html>
+
 
