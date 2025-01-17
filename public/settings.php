@@ -26,19 +26,16 @@ try {
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // フォームデータを取得
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
         $password = trim($_POST['password']);
         $notify_updates = isset($_POST['notify_updates']) ? 1 : 0;
 
-        // 入力バリデーション
         if (empty($name) || empty($email)) {
             $message = "名前とメールアドレスは必須項目です。";
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $message = "有効なメールアドレスを入力してください。";
         } else {
-            // ユーザー情報を更新
             if (!empty($password)) {
                 $password_hashed = password_hash($password, PASSWORD_DEFAULT);
                 $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, password = ?, notify_updates = ? WHERE id = ?");
@@ -132,3 +129,4 @@ try {
     </script>
 </body>
 </html>
+
