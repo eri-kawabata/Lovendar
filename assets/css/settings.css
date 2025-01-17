@@ -21,7 +21,6 @@
 body {
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
-    line-height: 1.6;
     color: var(--color-text);
     background-color: var(--color-secondary);
     margin: 0;
@@ -30,7 +29,6 @@ body {
 /* ヘッダー */
 header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     background-color: var(--color-primary);
     padding: 10px 20px;
@@ -57,7 +55,7 @@ header {
     height: 3px;
     background-color: var(--color-text);
     margin: 5px 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 .menu.open span:nth-of-type(1) {
@@ -90,7 +88,6 @@ header {
 .nav ul {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .nav ul li {
@@ -112,7 +109,7 @@ header {
 /* コンテナ */
 .container {
     max-width: 800px;
-    margin: 100px auto;
+    margin: 100px auto 20px;
     padding: 20px;
     background-color: var(--color-card-bg);
     border-radius: 10px;
@@ -121,8 +118,9 @@ header {
 
 .card {
     padding: 20px;
-    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
+    background-color: var(--color-card-bg);
     box-shadow: 0 2px 4px var(--color-shadow);
     margin-bottom: 20px;
 }
@@ -133,7 +131,7 @@ button {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

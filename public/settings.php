@@ -14,16 +14,9 @@ $message = "";
 try {
     // ユーザー情報を取得
     $stmt = $conn->prepare("SELECT name, email, notify_updates FROM users WHERE id = ?");
-    if (!$stmt) {
-        throw new Exception('クエリ準備に失敗しました: ' . $conn->error);
-    }
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $user = $stmt->get_result()->fetch_assoc();
-
-    if (!$user) {
-        throw new Exception('ユーザー情報が見つかりません。');
-    }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = trim($_POST['name']);
