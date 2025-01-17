@@ -72,13 +72,12 @@ try {
 </head>
 <body>
     <header>
-        <input type="checkbox" id="menu" />
-        <label for="menu" class="menu">
+        <div class="menu" id="menu">
             <span></span>
             <span></span>
             <span></span>
-        </label>
-        <nav class="nav">
+        </div>
+        <nav class="nav" id="nav">
             <ul>
                 <li><a href="dashboard.php">ホーム</a></li>
                 <li><a href="event_form.php">イベントの作成</a></li>
@@ -115,5 +114,21 @@ try {
             </form>
         </div>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menu = document.getElementById('menu');
+            const nav = document.getElementById('nav');
+
+            menu.addEventListener('click', () => {
+                menu.classList.toggle('open');
+                nav.classList.toggle('open');
+            });
+
+            nav.addEventListener('click', () => {
+                menu.classList.remove('open');
+                nav.classList.remove('open');
+            });
+        });
+    </script>
 </body>
 </html>
