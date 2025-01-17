@@ -1,0 +1,128 @@
+/* カラーテーマ */
+:root {
+    --color-1: #333;
+    /* メインテキストカラー */
+    --color-accent: #ffbfb3;
+    /* アクセントカラー (柔らかなピンク) */
+    --color-accent-dark: #e98e83;
+    /* サブアクセントカラー (濃いピンク) */
+    --color-background: #fff2e5;
+    /* 背景色 (淡いオレンジピンク) */
+    --color-card: white;
+    /* カード背景色 */
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    /* カードシャドウ */
+}
+
+/* 全体のリセット */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--color-1);
+    background-color: var(--color-background);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ヘッダー */
+header {
+    text-align: center;
+    background-color: var(--color-accent);
+    color: white;
+    padding: 15px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 4px solid var(--color-accent-dark);
+}
+
+/* コンテナ */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: var(--color-card);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--color-shadow);
+}
+
+/* カード */
+.card {
+    background-color: var(--color-card);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--color-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* フォーム */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--color-1);
+}
+
+form input,
+form textarea {
+    padding: 10px;
+    border: 1px solid var(--color-accent);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: var(--color-background);
+    transition: border-color 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: var(--color-accent-dark);
+    outline: none;
+}
+
+form button {
+    padding: 10px;
+    background-color: var(--color-accent);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form button:hover {
+    background-color: var(--color-accent-dark);
+    transform: scale(1.05);
+}
+
+form button:focus {
+    outline: none;
+    transform: scale(1.05);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    form button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
