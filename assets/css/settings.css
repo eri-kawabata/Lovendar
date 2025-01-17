@@ -1,20 +1,22 @@
 /* カラーテーマ */
 :root {
-    --color-1: #333;
+    --color-primary: #ffbfb3;
+    /* 柔らかなピンク */
+    --color-primary-dark: #e98e83;
+    /* 濃いピンク */
+    --color-secondary: #fff2e5;
+    /* 背景の淡いオレンジピンク */
+    --color-text: #333;
     /* メインテキストカラー */
-    --color-accent: #ffbfb3;
-    /* アクセントカラー (柔らかなピンク) */
-    --color-accent-dark: #e98e83;
-    /* サブアクセントカラー (濃いピンク) */
-    --color-background: #fff2e5;
-    /* 背景色 (淡いオレンジピンク) */
-    --color-card: white;
-    /* カード背景色 */
+    --color-card-bg: #ffffff;
+    /* カードの背景色 */
+    --color-border: #e0e0e0;
+    /* 境界線の色 */
     --color-shadow: rgba(0, 0, 0, 0.1);
-    /* カードシャドウ */
+    /* ボックスシャドウ */
 }
 
-/* 全体のリセット */
+/* 全体リセット */
 *,
 *::before,
 *::after {
@@ -26,23 +28,24 @@
 body {
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
-    line-height: 1.75;
-    color: var(--color-1);
-    background-color: var(--color-background);
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-secondary);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
 
-/* ヘッダーとハンバーガーメニュー */
+/* ヘッダー */
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--color-accent);
-    padding: 10px 20px;
+    background-color: var(--color-primary);
+    padding: 15px 20px;
     box-shadow: 0 2px 4px var(--color-shadow);
     position: fixed;
+    top: 0;
     width: 100%;
     z-index: 100;
 }
@@ -53,6 +56,7 @@ header h1 {
     font-weight: bold;
 }
 
+/* ハンバーガーメニュー */
 .menu {
     display: flex;
     flex-direction: column;
@@ -60,7 +64,7 @@ header h1 {
     align-items: center;
     width: 40px;
     height: 40px;
-    background-color: white;
+    background-color: var(--color-card-bg);
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
@@ -70,7 +74,7 @@ header h1 {
     display: block;
     width: 60%;
     height: 3px;
-    background-color: var(--color-1);
+    background-color: var(--color-text);
     margin: 5px 0;
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
@@ -80,7 +84,7 @@ header h1 {
 }
 
 #menu:checked~.menu {
-    background-color: var(--color-accent-dark);
+    background-color: var(--color-primary-dark);
     transform: rotate(360deg);
 }
 
@@ -107,7 +111,7 @@ header h1 {
     left: -300px;
     width: 300px;
     height: 100vh;
-    background-color: var(--color-accent-dark);
+    background-color: var(--color-primary-dark);
     box-shadow: 2px 0 6px var(--color-shadow);
     transition: left 0.3s ease;
     padding-top: 60px;
@@ -135,7 +139,7 @@ header h1 {
 }
 
 .nav ul li a:hover {
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
 }
 
 /* コンテナ */
@@ -143,7 +147,7 @@ header h1 {
     max-width: 800px;
     margin: 100px auto 20px;
     padding: 20px;
-    background-color: var(--color-card);
+    background-color: var(--color-card-bg);
     border-radius: 10px;
     box-shadow: 0 4px 6px var(--color-shadow);
 }
@@ -151,7 +155,7 @@ header h1 {
 /* 見出し */
 h1 {
     font-size: 2rem;
-    color: var(--color-1);
+    color: var(--color-text);
     margin-bottom: 20px;
     text-align: center;
 }
@@ -159,9 +163,9 @@ h1 {
 /* カード */
 .card {
     padding: 20px;
-    border: 1px solid var(--color-shadow);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
-    background-color: var(--color-card);
+    background-color: var(--color-card-bg);
     box-shadow: 0 2px 4px var(--color-shadow);
     margin-bottom: 20px;
 }
@@ -176,14 +180,14 @@ form {
 form label {
     font-size: 1rem;
     font-weight: bold;
-    color: var(--color-1);
+    color: var(--color-text);
 }
 
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
     padding: 10px;
-    border: 1px solid var(--color-shadow);
+    border: 1px solid var(--color-border);
     border-radius: 5px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
@@ -192,7 +196,7 @@ form input[type="password"] {
 form input[type="text"]:focus,
 form input[type="email"]:focus,
 form input[type="password"]:focus {
-    border-color: var(--color-accent-dark);
+    border-color: var(--color-primary-dark);
     outline: none;
 }
 
@@ -203,7 +207,7 @@ form input[type="checkbox"] {
 
 /* ボタン */
 button {
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
     color: white;
     padding: 10px;
     border: none;
@@ -214,7 +218,7 @@ button {
 }
 
 button:hover {
-    background-color: var(--color-accent-dark);
+    background-color: var(--color-primary-dark);
     transform: scale(1.05);
 }
 
