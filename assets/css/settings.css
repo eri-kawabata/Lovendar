@@ -64,19 +64,28 @@ header h1 {
     align-items: center;
     width: 40px;
     height: 40px;
-    background-color: var(--color-card-bg);
+    background-color: white;
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
+    position: relative;
 }
 
 .menu span {
     display: block;
     width: 60%;
     height: 3px;
-    background-color: var(--color-text);
+    background-color: var(--color-1);
     margin: 5px 0;
     transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.menu span:nth-of-type(1) {
+    transform: translateY(-6px);
+}
+
+.menu span:nth-of-type(3) {
+    transform: translateY(6px);
 }
 
 #menu {
@@ -84,12 +93,16 @@ header h1 {
 }
 
 #menu:checked~.menu {
-    background-color: var(--color-primary-dark);
+    background-color: var(--color-accent-dark);
     transform: rotate(360deg);
 }
 
+#menu:checked~.menu span {
+    background-color: var(--color-card);
+}
+
 #menu:checked~.menu span:nth-of-type(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: rotate(45deg);
 }
 
 #menu:checked~.menu span:nth-of-type(2) {
@@ -97,7 +110,7 @@ header h1 {
 }
 
 #menu:checked~.menu span:nth-of-type(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 #menu:checked~.nav {
@@ -111,35 +124,36 @@ header h1 {
     left: -300px;
     width: 300px;
     height: 100vh;
-    background-color: var(--color-primary-dark);
-    box-shadow: 2px 0 6px var(--color-shadow);
+    background-color: var(--color-accent-dark);
+    z-index: 99;
     transition: left 0.3s ease;
-    padding-top: 60px;
-    z-index: 150;
+    padding-top: 80px;
+    box-shadow: 0 2px 6px var(--color-shadow);
 }
 
 .nav ul {
     list-style: none;
+    padding: 0;
     margin: 0;
-    padding: 20px;
+    text-align: left;
 }
 
 .nav ul li {
-    margin-bottom: 15px;
+    margin: 15px 0;
 }
 
 .nav ul li a {
-    text-decoration: none;
     color: white;
+    text-decoration: none;
     font-size: 1.2rem;
-    padding: 10px;
+    padding: 10px 20px;
     display: block;
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.3s ease;
 }
 
 .nav ul li a:hover {
-    background-color: var(--color-primary);
+    background-color: var(--color-accent);
+    border-radius: 8px;
 }
 
 /* コンテナ */
