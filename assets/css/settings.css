@@ -1,19 +1,11 @@
 /* カラーテーマ */
 :root {
-    --color-primary: #ffbfb3;
-    /* 柔らかなピンク */
-    --color-primary-dark: #e98e83;
-    /* 濃いピンク */
-    --color-secondary: #fff2e5;
-    /* 背景の淡いオレンジピンク */
-    --color-text: #333;
-    /* メインテキストカラー */
-    --color-card-bg: #ffffff;
-    /* カードの背景色 */
-    --color-border: #e0e0e0;
-    /* 境界線の色 */
+    --color-1: #333;
+    --color-accent: #ffbfb3;
+    --color-accent-dark: #e98e83;
+    --color-background: #fff2e5;
+    --color-card: white;
     --color-shadow: rgba(0, 0, 0, 0.1);
-    /* ボックスシャドウ */
 }
 
 /* 全体リセット */
@@ -26,26 +18,25 @@
 }
 
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 16px;
-    line-height: 1.6;
-    color: var(--color-text);
-    background-color: var(--color-secondary);
+    line-height: 1.75;
+    color: var(--color-1);
+    background-color: var(--color-background);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
 
-/* ヘッダー */
+/* ヘッダーとハンバーガーメニュー */
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--color-primary);
-    padding: 15px 20px;
+    background-color: var(--color-accent);
+    padding: 10px 20px;
     box-shadow: 0 2px 4px var(--color-shadow);
     position: fixed;
-    top: 0;
     width: 100%;
     z-index: 100;
 }
