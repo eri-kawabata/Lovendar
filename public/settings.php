@@ -65,6 +65,25 @@ try {
     <link rel="stylesheet" href="../assets/css/settings.css">
 </head>
 <body>
+<<<<<<< HEAD
+=======
+    <header>
+        <input type="checkbox" id="menu">
+        <label for="menu" class="menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="nav">
+            <ul>
+                <li><a href="dashboard.php">ホーム</a></li>
+                <li><a href="event_form.php">イベントの作成</a></li>
+                <li><a href="calendar.php">カレンダー</a></li>
+                <li><a href="settings.php">設定</a></li>
+            </ul>
+        </nav>
+    </header>
+>>>>>>> 783ce14 (設定)
     <main>
         <div class="container">
             <h1>設定</h1>
