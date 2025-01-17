@@ -1,17 +1,11 @@
 /* カラーテーマ */
 :root {
     --color-1: #333;
-    /* メインテキストカラー */
     --color-accent: #ffbfb3;
-    /* アクセントカラー (柔らかなピンク) */
     --color-accent-dark: #e98e83;
-    /* サブアクセントカラー (濃いピンク) */
     --color-background: #fff2e5;
-    /* 背景色 (淡いオレンジピンク) */
     --color-card: white;
-    /* カード背景色 */
     --color-shadow: rgba(0, 0, 0, 0.1);
-    /* カードシャドウ */
 }
 
 /* 全体のリセット */
@@ -34,22 +28,37 @@ body {
     overflow-x: hidden;
 }
 
-/* メニューのスタイル */
-.menu {
-    position: fixed;
-    top: 20px;
-    left: 20px;
+/* ヘッダーとハンバーガーメニュー */
+header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    background-color: var(--color-accent);
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px var(--color-shadow);
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+header h1 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
     flex-direction: column;
-    width: 50px;
-    height: 50px;
-    background-color: var(--color-card);
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: white;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 200;
-    transition: transform 250ms ease, background-color 250ms ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    position: relative;
 }
 
 .menu span {
@@ -57,8 +66,8 @@ body {
     width: 60%;
     height: 3px;
     background-color: var(--color-1);
-    margin: 4px 0;
-    transition: transform 250ms ease, background-color 250ms ease;
+    margin: 5px 0;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .menu span:nth-of-type(1) {
@@ -69,12 +78,10 @@ body {
     transform: translateY(6px);
 }
 
-/* チェックボックスを非表示 */
 #menu {
     display: none;
 }
 
-/* メニューアクティブ時のスタイル */
 #menu:checked~.menu {
     background-color: var(--color-accent-dark);
     transform: rotate(360deg);
@@ -100,10 +107,6 @@ body {
     left: 0;
 }
 
-#menu:checked~main {
-    transform: translateX(300px);
-}
-
 /* ナビゲーション */
 .nav {
     position: fixed;
@@ -112,41 +115,45 @@ body {
     width: 300px;
     height: 100vh;
     background-color: var(--color-accent-dark);
-    z-index: 100;
-    transition: left 250ms ease;
-    padding-top: 60px;
+    z-index: 99;
+    transition: left 0.3s ease;
+    padding-top: 80px;
+    box-shadow: 0 2px 6px var(--color-shadow);
 }
 
 .nav ul {
     list-style: none;
+    padding: 0;
     margin: 0;
-    padding: 20px;
+    text-align: left;
 }
 
 .nav ul li {
-    margin-bottom: 15px;
+    margin: 15px 0;
 }
 
 .nav ul li a {
+    color: white;
     text-decoration: none;
-    color: rgb(81, 81, 81);
     font-size: 1.2rem;
     padding: 10px 20px;
     display: block;
-    border-radius: 5px;
-    transition: background-color 250ms ease;
+    transition: background-color 0.3s ease;
 }
 
 .nav ul li a:hover {
     background-color: var(--color-accent);
-    color:white;
+    border-radius: 8px;
 }
 
 /* コンテナ */
 .container {
-    max-width: 1000px;
-    margin: 80px auto 20px;
-    padding: 0 20px;
+    max-width: 800px;
+    margin: 100px auto 20px;
+    padding: 20px;
+    background-color: var(--color-card);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--color-shadow);
 }
 
 /* カード */
@@ -166,60 +173,23 @@ body {
 
 /* ボタン */
 .btn {
-    display: inline-block;
     background-color: var(--color-accent);
     color: white;
     padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    text-decoration: none;
     font-size: 1rem;
-    transition: background-color 250ms ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
     background-color: var(--color-accent-dark);
 }
 
-.btn-sm {
-    font-size: 0.9rem;
-    padding: 5px 10px;
-}
-
-/* 通知バッジ */
-.badge {
-    font-size: 0.8rem;
-    background-color: var(--color-accent-dark);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-/* イベントリスト */
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-ul li {
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: var(--color-card);
-    border-radius: 5px;
-    box-shadow: 0 1px 2px var(--color-shadow);
-}
-
-ul li strong {
-    display: block;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .menu {
-        top: 15px;
-        left: 15px;
         width: 40px;
         height: 40px;
     }
@@ -230,15 +200,6 @@ ul li strong {
     }
 
     .container {
-        margin: 60px auto 20px;
-    }
-
-    .card {
-        padding: 15px;
-    }
-
-    .btn {
-        font-size: 0.9rem;
-        padding: 8px 15px;
+        margin: 100px auto;
     }
 }

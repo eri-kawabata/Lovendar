@@ -1,17 +1,25 @@
 /* カラーテーマ */
 :root {
-    --color-1: #333;
-    --color-accent: #ffbfb3;
-    --color-accent-dark: #e98e83;
-    --color-background: #fff2e5;
-    --color-card: white;
+    --color-primary: #ffbfb3;
+    /* 柔らかなピンク */
+    --color-primary-dark: #e98e83;
+    /* 濃いピンク */
+    --color-secondary: #fff2e5;
+    /* 背景の淡いオレンジピンク */
+    --color-text: #333;
+    /* メインテキストカラー */
+    --color-card-bg: #ffffff;
+    /* カードの背景色 */
+    --color-border: #e0e0e0;
+    /* 境界線の色 */
     --color-shadow: rgba(0, 0, 0, 0.1);
+    /* ボックスシャドウ */
 }
 
 /* 全体リセット */
 *,
-*:before,
-*:after {
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -20,101 +28,180 @@
 body {
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
-    line-height: 1.75;
-    color: var(--color-1);
-    background-color: var(--color-background);
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-secondary);
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
 /* ヘッダー */
 header {
-    position: relative;
-    background-color: var(--color-accent-dark);
-    color: white;
+    background-color: var(--color-primary);
     padding: 15px 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 100%;
+    color: white;
     text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* ナビゲーションメニュー */
+.menu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-card-bg);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px var(--color-shadow);
+    z-index: 200;
+}
+
+.menu span {
+    display: block;
+    width: 60%;
+    height: 3px;
+    background-color: var(--color-text);
+    margin: 4px 0;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+#menu:checked~.menu span:nth-of-type(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+#menu:checked~.menu span:nth-of-type(2) {
+    opacity: 0;
+}
+
+#menu:checked~.menu span:nth-of-type(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ナビゲーション */
+.nav {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: var(--color-primary-dark);
+    box-shadow: 2px 0 6px var(--color-shadow);
+    transition: left 0.3s;
+    padding-top: 60px;
+    z-index: 150;
+}
+
+#menu:checked~.nav {
+    left: 0;
+}
+
+.nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 20px;
+}
+
+.nav ul li {
+    margin-bottom: 15px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.nav ul li a:hover {
+    background-color: var(--color-primary);
 }
 
 /* コンテナ */
 .container {
-    max-width: 500px;
-    background-color: var(--color-card);
-    padding: 20px 30px;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: var(--color-card-bg);
     border-radius: 10px;
     box-shadow: 0 4px 6px var(--color-shadow);
-    margin-top: 20px;
 }
 
-/* メッセージカード */
-.card {
-    background-color: var(--color-accent-dark);
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
+/* 見出し */
+h1 {
+    font-size: 2rem;
+    color: var(--color-text);
     margin-bottom: 20px;
-    font-size: 1rem;
     text-align: center;
+}
+
+/* カード */
+.card {
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-card-bg);
+    box-shadow: 0 2px 4px var(--color-shadow);
+    margin-bottom: 20px;
 }
 
 /* フォーム */
 form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 
-/* ラベルと入力 */
 form label {
     font-size: 1rem;
     font-weight: bold;
-    color: var(--color-1);
+    color: var(--color-text);
 }
 
 form input[type="text"],
 form input[type="email"],
 form input[type="password"] {
-    padding: 12px;
-    border: 1px solid var(--color-accent);
-    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
     font-size: 1rem;
-    background-color: var(--color-background);
     transition: border-color 0.3s ease;
 }
 
-/* チェックボックス */
-form label input[type="checkbox"] {
-    margin-right: 10px;
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus {
+    border-color: var(--color-primary-dark);
+    outline: none;
 }
 
-/* フォーカス時 */
-form input:focus {
-    border-color: var(--color-accent-dark);
-    outline: none;
+form input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
 }
 
 /* ボタン */
 button {
-    padding: 12px;
-    background-color: var(--color-accent);
+    background-color: var(--color-primary);
     color: white;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 10px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background-color: var(--color-accent-dark);
+    background-color: var(--color-primary-dark);
     transform: scale(1.05);
 }
 
@@ -124,7 +211,11 @@ button:hover {
         padding: 15px;
     }
 
+    h1 {
+        font-size: 1.5rem;
+    }
+
     button {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 }
