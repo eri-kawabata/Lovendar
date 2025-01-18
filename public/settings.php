@@ -3,10 +3,10 @@ session_start();
 include '../config/config.php';
 include '../config/functions.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
+// header.php を読み込む
+include '../templates/header.php';
+
+redirectIfNotLoggedIn();
 
 $user_id = $_SESSION['user_id'];
 $message = "";
@@ -25,9 +25,9 @@ try {
         $notify_updates = isset($_POST['notify_updates']) ? 1 : 0;
 
         if (empty($name) || empty($email)) {
-            $message = "名前とメールアドレスは必須項目です。";
+            $_SESSION['message'] = "名前とメールアドレスは必須項目です。";
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $message = "有効なメールアドレスを入力してください。";
+            $_SESSION['message'] = "有効なメールアドレスを入力してください。";
         } else {
             if (!empty($password)) {
                 $password_hashed = password_hash($password, PASSWORD_DEFAULT);
@@ -40,14 +40,18 @@ try {
             $stmt->execute();
 
             if ($stmt->affected_rows > 0) {
-                $message = "設定が更新されました。";
+                $_SESSION['message'] = "設定が更新されました。";
             } else {
-                $message = "変更はありませんでした。";
+                $_SESSION['message'] = "変更はありませんでした。";
             }
+            header('Location: settings.php');
+            exit;
         }
     }
 } catch (Exception $e) {
-    $message = "エラーが発生しました: " . htmlspecialchars($e->getMessage());
+    $_SESSION['message'] = "エラーが発生しました: " . htmlspecialchars($e->getMessage());
+    header('Location: settings.php');
+    exit;
 }
 ?>
 
@@ -61,29 +65,14 @@ try {
     <link rel="stylesheet" href="../assets/css/settings.css">
 </head>
 <body>
-    <header>
-        <input type="checkbox" id="menu">
-        <label for="menu" class="menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </label>
-        <nav class="nav">
-            <ul>
-                <li><a href="dashboard.php">ホーム</a></li>
-                <li><a href="event_form.php">イベントの作成</a></li>
-                <li><a href="calendar.php">カレンダー</a></li>
-                <li><a href="settings.php">設定</a></li>
-            </ul>
-        </nav>
-    </header>
     <main>
         <div class="container">
             <h1>設定</h1>
-            <?php if ($message): ?>
+            <?php if (!empty($_SESSION['message'])): ?>
                 <div class="card">
-                    <p><?php echo htmlspecialchars($message); ?></p>
+                    <p><?php echo htmlspecialchars($_SESSION['message']); ?></p>
                 </div>
+                <?php unset($_SESSION['message']); ?>
             <?php endif; ?>
 
             <form method="POST" class="card">
@@ -101,10 +90,9 @@ try {
                     アップデートに関する通知を受け取る
                 </label>
 
-                <button type="submit">保存</button>
+                <button type="submit" class="btn-save">保存</button>
             </form>
         </div>
     </main>
 </body>
 </html>
-

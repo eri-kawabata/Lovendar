@@ -175,17 +175,67 @@ header h1 {
 .btn {
     background-color: var(--color-accent);
     color: white;
-    padding: 10px 20px;
+    padding: 12px 30px;
     border: none;
-    border-radius: 5px;
-    font-size: 1rem;
+    border-radius: 50px;
+    /* 丸みを増やす */
+    font-size: 1.2rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    text-align: center;
+    transition: all 0.3s ease;
+    /* なめらかなトランジション */
+    box-shadow: 0 4px 6px var(--color-shadow);
 }
 
 .btn:hover {
     background-color: var(--color-accent-dark);
+    transform: translateY(-2px);
+    /* ホバリング時に少し浮かせる */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    /* シャドウを強調 */
 }
+
+.btn:active {
+    transform: translateY(0);
+    /* 押された時の感覚 */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn:focus {
+    outline: none;
+    /* フォーカスリングを非表示に */
+    box-shadow: 0 0 0 4px rgba(255, 191, 179, 0.5);
+    /* フォーカス用の強調 */
+}
+
+/* ボタン */
+.btn-save {
+    display: inline-block;
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #ffbfb3, #e98e83);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-save:hover {
+    background: linear-gradient(45deg, #e98e83, #ffbfb3);
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-save:active {
+    transform: scale(0.98);
+}
+
+
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
