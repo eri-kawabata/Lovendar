@@ -60,7 +60,7 @@ try {
 </head>
 <body>
     <!-- ヘッダーをインクルード -->
-    <?php include 'header.php'; ?>
+    <?php include '../templates/header.php'; ?>
 
     <main>
         <div class="container">
