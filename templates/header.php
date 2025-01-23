@@ -20,11 +20,13 @@
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
 
+        // ハンバーガーメニューのトグル
         hamburger.addEventListener('click', function () {
             navMenu.classList.toggle('active');
         });
     });
 </script>
+
 
 
 

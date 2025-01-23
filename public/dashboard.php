@@ -3,6 +3,7 @@ include '../config/config.php';
 include '../config/functions.php';
 session_start();
 
+// ユーザーがログインしていない場合はリダイレクト
 redirectIfNotLoggedIn();
 
 $user_id = $_SESSION['user_id'];
@@ -13,7 +14,7 @@ $events = null;
 $notifications = null;
 
 try {
-    // ペアリング情報の取得
+    // ペアリング情報を取得
     $stmt = $conn->prepare("
         SELECT u.name AS partner_name, c.anniversary_date 
         FROM couples c 
@@ -24,7 +25,7 @@ try {
     $stmt->execute();
     $pairing_info = $stmt->get_result()->fetch_assoc();
 
-    // イベント一覧の取得
+    // イベント一覧を取得
     $stmt = $conn->prepare("
         SELECT e.id, e.title, e.description, e.date_time, e.location 
         FROM events e 
@@ -35,7 +36,7 @@ try {
     $stmt->execute();
     $events = $stmt->get_result();
 
-    // 通知一覧の取得
+    // 通知一覧を取得
     $stmt = $conn->prepare("SELECT id, message, is_read FROM notifications WHERE user_id = ? ORDER BY created_at DESC");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -47,6 +48,7 @@ try {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -57,30 +59,17 @@ try {
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
-    <header>
-        <input type="checkbox" id="menu" />
-        <label for="menu" class="menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </label>
-        <nav class="nav">
-            <ul>
-                <li><a href="dashboard.php">ホーム</a></li>
-                <li><a href="event_form.php">イベントの作成</a></li>
-                <li><a href="calendar.php">カレンダー</a></li>
-                <li><a href="settings.php">設定</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- ヘッダーをインクルード -->
+    <?php include 'header.php'; ?>
+
     <main>
         <div class="container">
             <!-- ペアリング情報 -->
             <?php if ($pairing_info): ?>
                 <div class="card">
                     <h2>パートナー情報</h2>
-                    <p>パートナー: <?php echo htmlspecialchars($pairing_info['partner_name']); ?></p>
-                    <p>記念日: <?php echo htmlspecialchars($pairing_info['anniversary_date']); ?></p>
+                    <p>パートナー: <?= htmlspecialchars($pairing_info['partner_name']) ?></p>
+                    <p>記念日: <?= htmlspecialchars($pairing_info['anniversary_date']) ?></p>
                 </div>
             <?php else: ?>
                 <div class="card">
@@ -96,12 +85,12 @@ try {
                     <ul>
                         <?php while ($event = $events->fetch_assoc()): ?>
                             <li>
-                                <strong><?php echo htmlspecialchars($event['title']); ?></strong><br>
-                                説明: <?php echo htmlspecialchars($event['description']); ?><br>
-                                日時: <?php echo htmlspecialchars($event['date_time']); ?><br>
-                                場所: <?php echo htmlspecialchars($event['location']); ?><br>
-                                <a href="event_edit.php?id=<?php echo $event['id']; ?>" class="btn btn-sm">編集</a>
-                                <a href="event_delete.php?id=<?php echo $event['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('本当にこのイベントを削除しますか？');">削除</a>
+                                <strong><?= htmlspecialchars($event['title']) ?></strong><br>
+                                説明: <?= htmlspecialchars($event['description']) ?><br>
+                                日時: <?= htmlspecialchars($event['date_time']) ?><br>
+                                場所: <?= htmlspecialchars($event['location']) ?><br>
+                                <a href="event_edit.php?id=<?= $event['id'] ?>" class="btn btn-sm">編集</a>
+                                <a href="event_delete.php?id=<?= $event['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('本当にこのイベントを削除しますか？');">削除</a>
                             </li>
                         <?php endwhile; ?>
                     </ul>
@@ -117,7 +106,7 @@ try {
                     <ul>
                         <?php while ($notification = $notifications->fetch_assoc()): ?>
                             <li>
-                                <?php echo htmlspecialchars($notification['message']); ?>
+                                <?= htmlspecialchars($notification['message']) ?>
                                 <?php if (!$notification['is_read']): ?>
                                     <span class="badge bg-warning text-dark">新規</span>
                                 <?php endif; ?>
@@ -132,5 +121,3 @@ try {
     </main>
 </body>
 </html>
-
-
