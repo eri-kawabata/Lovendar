@@ -26,9 +26,8 @@
     :root {
         --color-header-bg: #ffbfb3; /* ヘッダー背景色 */
         --color-header-text: white; /* ヘッダー文字色 */
-        --color-hamburger: white; /* ハンバーガーメニュー色 */
         --color-nav-bg: #e98e83; /* ナビゲーション背景色 */
-        --color-nav-hover: rgba(255, 255, 255, 0.2); /* ホバー背景色 */
+        --color-nav-hover: rgba(255, 255, 255, 0.2); /* ホバー時の背景色 */
         --color-shadow: rgba(0, 0, 0, 0.1); /* ボックスシャドウ */
     }
 
@@ -57,7 +56,7 @@
     /* ハンバーガーメニュー */
     .hamburger {
         font-size: 1.5rem;
-        color: var(--color-hamburger);
+        color: var(--color-header-text);
         background: none;
         border: none;
         cursor: pointer;
@@ -70,22 +69,23 @@
 
     /* ナビゲーションメニュー */
     .nav-menu {
-        display: none; /* 初期は非表示 */
+        display: none; /* デフォルトは非表示 */
         position: fixed;
         top: 0;
-        right: 0;
+        left: 0;
         width: 250px;
         height: 100%;
         background-color: var(--color-nav-bg);
-        box-shadow: -2px 0 4px var(--color-shadow);
+        box-shadow: 2px 0 4px var(--color-shadow);
         padding-top: 60px;
         z-index: 99;
-        transition: transform 0.3s ease;
-        transform: translateX(100%); /* 画面外に配置 */
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(-100%); /* 初期は左外に隠す */
     }
 
     .nav-menu.active {
-        transform: translateX(0); /* メニュー表示時 */
+        display: block; /* 表示時 */
+        transform: translateX(0); /* 左から展開 */
     }
 
     .nav-menu ul {
@@ -112,7 +112,7 @@
         border-radius: 5px; /* 丸みを追加 */
     }
 
-    /* レスポンシブデザイン */
+    /* レスポンシブ対応 */
     @media (min-width: 768px) {
         .hamburger {
             display: none; /* デスクトップでは非表示 */
@@ -162,6 +162,7 @@
         });
     });
 </script>
+
 
 
 
